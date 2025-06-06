@@ -12,7 +12,7 @@ REBOOT_NEEDED=0
 
 # ── Check for failed systemd services ────────────────────────────
 if command -v systemctl >/dev/null 2>&1; then
-  failed_services=$(systemctl --failed --no-legend --no-pager 2>/dev/null | awk '{print $1}' | grep -v '^$')
+  failed_services=$(systemctl --failed --no-legend --no-pager 2>/dev/null | sed 's/^● *//' | awk '{print $1}' | grep -v '^$')
   if [ -n "$failed_services" ]; then
     echo
     echo "${RED}${BOLD}⚠️  Failed systemd services detected:${RESET}"
